@@ -1,0 +1,2 @@
+"0","roc_frame <- generate_roc_frame(mtcars_data, binomial_model)"
+"0","head(roc_frame)"

@@ -1,0 +1,17 @@
+"2","Error in yaml::yaml.load(yaml, handlers = knit_params_handlers(evaluate = evaluate),  : 
+  Parser error: while parsing a block mapping at line 1, column 1 did not find expected key at line 1, column 40
+"
+"2","Error in yaml::yaml.load(yaml, handlers = knit_params_handlers(evaluate = evaluate),  : 
+  Parser error: while parsing a block mapping at line 1, column 1 did not find expected key at line 1, column 40
+"
+"2","Error in yaml::yaml.load(yaml, handlers = knit_params_handlers(evaluate = evaluate),  : 
+  Parser error: while parsing a block mapping at line 1, column 1 did not find expected key at line 1, column 40
+"
+"2","Error in yaml::yaml.load(yaml, handlers = knit_params_handlers(evaluate = evaluate),  : 
+  Parser error: while parsing a block mapping at line 1, column 1 did not find expected key at line 1, column 40
+"
+"0","---"
+"2","Unexpected exception: basic_string::_M_create
+"
+"2","Fatal error: Unexpected exception: basic_string::_M_create
+"

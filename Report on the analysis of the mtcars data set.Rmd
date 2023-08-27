@@ -1,0 +1,159 @@
+---
+title: "Report on the analysis of the mtcars data set using logistic regression to estimate the probability of manual transmission"
+author: '"Milica Djurkovic"'
+date: '2023-08-27'
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+    theme: flatly
+params:
+  interactive: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    out.width = "100%",
+    fig.align = "center")
+
+```
+
+```{r}
+# Load the required libraries
+library(tidyverse)
+library(dplyr)
+library(caret)
+library(rpart)
+library(corrplot)
+library(car)
+library(ggplot2)
+library(ggrepel)
+```
+
+```{r}
+# Load the mtcars dataset
+
+data_dir <- paste0(getwd(), "/_data/")
+mtcars_data <- read.csv(
+    paste0(data_dir, "mtcars.csv"),
+    header = TRUE,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+)
+mtcars_data <- mtcars_data %>%
+    select("mpg",
+           "cyl",
+           "disp",
+           "hp",
+           "drat",
+           "wt",
+           "qsec",
+           "vs",
+           "am",
+           "gear",
+           "carb")
+
+```
+
+```{r}
+source("./00_scripts_plot_visualization.R")
+```
+
+## Problem Statement
+
+This report analyzes the "mtcar" dataset to estimate the probability that a car's transmission is manual or automatic, using a logistic regression technique. The goal of the research was to develop a model that can classify the type of transmission based on available car characteristics.
+
+The dataset "mtcar" contains information about various car specifications. The target variable for our analysis is the transmission column, "am", which represents the type of transmission (1 for manual and 0 for automatic). 
+We aim to predict the transmission type based on rear axle ratio, "drat", and a number of forward gears "gear".
+
+
+Based on the analysis of the correlation table, and later applying the VIF technique for assessing multicollinearity, we notice that the variables number of cylinders - 'cyl', displacement - 'disp', 1/4 mile time - 'qsec' and a number of carburetors - 'carb', show a pronounced mutual correlation. High absolute correlations between these variables indicate the potential presence of multicollinearity between them.
+
+
+```{r}
+# Display correlation matrix
+display_correlation_matrix(interactive = params$interactive)
+
+```
+
+## Visualization of Box Plot
+
+Box Plot: 'am' vs. Numerical Variable
+Below is the box plot showing the distribution of 'am' variable in relation to a numerical variable.
+
+```{r}
+# Create box plots for each variable against 'am'
+box_plot(interactive = params$interactive)
+```
+## Logistic Regression
+
+The logistic regression analysis was performed to explore the relationship between the transmission type ("am") and the rear axle ratio, "drat", and a number of forward gears "gear" variables. 
+The model indicates that both weight and horsepower play a significant role in predicting the type of transmission in automobiles.
+
+
+Based on the analysis of the model applied to the mtcars_data dataset using a binomial model, the following conclusions can be drawn:
+
+## VIF Values
+
+VIF Values: The examination of Variance Inflation Factor (VIF) values did not indicate a significant issue of multicollinearity among the independent variables. All VIF values are close to 1, indicating low mutual correlation between predictors.
+
+## Model Summary
+
+A binomial model with the formula am ~ drat + gear was employed. The analysis of residuals suggests that the model has relatively low deviance, indicating a good fit to the data.
+
+## Coefficients
+
+The computed coefficients were transformed using the exponential function for better interpretability. Interpreting these coefficients provides insights into the probability of change in the dependent variable relative to changes in the independent variables.
+
+## Predictions and Metrics
+Based on the applied model, predicted values were generated using a threshold of 0.5. Accuracy, hit rate, and false alarm rate metrics were calculated. The model exhibited a high accuracy of 87.5%, a high hit rate of 92.31%, and a low false alarm rate of 15.79%.
+
+The model appears to fit the mtcars_data well, as indicated by the low deviance, good accuracy metrics, and high prediction success rates.
+
+```{r}
+binomial_model <- fit_binomial_linear_model(mtcars_data)
+analyze_model(mtcars_data, binomial_model)
+```
+
+## Evaluation of "am" Classification Using Different Thresholds
+
+An evaluation was conducted to assess the performance of the classification model for predicting the "am" variable based on the rear axle ratio, "drat", and a number of forward gears "gear" variables. Various decision thresholds were employed to determine how the model performs under different conditions.
+The evaluation included the following metrics:
+
+Hit Rate (Recall): Represents the proportion of actual positive cases (manual transmission) that were correctly identified by the model.
+
+False Alarm Rate: Indicates the proportion of actual negative cases (automatic transmission) that were incorrectly classified as positive cases.
+
+Accuracy: Refers to the proportion of all cases that were correctly classified by the model.
+
+
+## Analysis of ROC Curve
+
+The provided code generates a Receiver Operating Characteristic (ROC) curve and calculates corresponding metrics using a range of decision thresholds. The ROC curve illustrates the trade-off between true positive rate (hit rate) and false positive rate (false alarm rate) as the decision threshold changes.
+
+The ROC frame displays hit rates, false alarm rates, accuracies, and the decision thresholds used.
+The highest difference between hit rate and false alarm rate occurs at a threshold of 0.08, resulting in a value of 0.8421053. This indicates a point on the ROC curve that balances well between high hit rate and low false alarm rate.
+
+```{r} 
+roc_frame <- generate_roc_frame(mtcars_data, binomial_model)
+head(roc_frame)
+```
+## The ROC curve plot
+
+In our analysis, we've identified a point on the ROC curve that stands out as the optimal operating point. At this threshold, the hit rate is impressively high at 0.923, indicating the model's ability to correctly classify positive instances. Simultaneously, the false alarm rate remains relatively low at 0.158, implying the model's effectiveness in minimizing false positives.
+
+The key metrics further reinforce the model's commendable performance. The overall accuracy of 0.875 demonstrates that the model's predictions align well with the actual outcomes. The high hit rate showcases the model's capability to capture a substantial portion of positive instances, while the low false alarm rate signifies its proficiency in avoiding false positives.
+
+```{r}
+# Plot the ROC curve
+plot_roc_curve(roc_frame)
+```
+## Conclusion
+
+Based on our analysis of the linear model, we can conclude the linear regression model exhibited strong predictive capabilities, as demonstrated by its accuracy and hit rate metrics. The comprehensive evaluation, including the analysis of coefficients, prediction metrics, and ROC curve, collectively indicates that the model is well-suited for capturing patterns and making predictions within the given dataset.
+
+
+

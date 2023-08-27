@@ -1,0 +1,27 @@
+{
+    "id": "10E98B5E",
+    "path": "~/mtcars_project/project_mtcars.R",
+    "project_path": "project_mtcars.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": true,
+    "created": 1693126630247.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled2",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "178,0",
+        "scrollLine": "170"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1693170855,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1693171186973,
+    "read_only": false,
+    "read_only_alternatives": []
+}

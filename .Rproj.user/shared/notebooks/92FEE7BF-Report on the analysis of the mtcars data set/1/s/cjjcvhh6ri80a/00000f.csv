@@ -1,0 +1,2 @@
+"0","# Create box plots for each variable against 'am'"
+"0","box_plot(interactive = params$interactive)"
